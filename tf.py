@@ -78,7 +78,7 @@ def getWebCam():
       tests = np.array(tests)
       choice = model.predict_classes(tests[0:1])
       probs = model.predict(tests[0:1])[0]
-      print("Number", choice,  "with prob ",probs[choice])
+      print("Number", choice,  "with prob ",int(probs[choice]*100))
 
 
 def get_dataset(dataset_path='Dataset'):
@@ -118,11 +118,11 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 #Treinar o modelo
-model.fit(train_images, train_labels, epochs = 30)
+model.fit(train_images, train_labels, epochs = 15)
 
 #Testar o modelo
 test_loss, test_acc = model.evaluate(test_images, test_labels)
-print('Test accuracy:', test_acc)
+print('Test accuracy:', int(test_acc*100), " % ")
 
 #NEVES e LUCAS fotos
 testes=[]
@@ -135,9 +135,9 @@ testes = np.array(testes)
 for i in range(6):
   img_test = cv2.resize(testes[i],(10*img_size,10*img_size))
   cv2.imshow('p',img_test)
-  choice = model.predict_classes(testes[i:i+1])
+  choice = model.predict_classes(testes[i:i+1])[0]
   probs = model.predict(testes[i:i+1])[0]
-  print("Number", choice,  "with prob ",probs[choice])
+  print("Number", choice,  "with prob ",int(probs[choice]*100), " %")
   key = cv2.waitKey(0)
   if key == 27:
     break
@@ -147,9 +147,9 @@ for i in range(20):
   x = randint(0,200)
   img_test = cv2.resize(test_images[x],(10*img_size,10*img_size))
   cv2.imshow('p',img_test)
-  choice = model.predict_classes(test_images[x:x+1])
+  choice = model.predict_classes(test_images[x:x+1])[0]
   probs = model.predict(test_images[x:x+1])[0]
-  print("Number", choice,  "with prob ",probs[choice], "real ", test_labels[x])
+  print("Number", choice,  "with prob ",int(probs[choice]*100), " % real ", test_labels[x])
   key = cv2.waitKey(0)
   if key == 27:
     break
